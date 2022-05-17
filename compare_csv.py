@@ -1,6 +1,6 @@
 import csv
 def error_detector(source,target):
-    with open('abcd.html','w') as file:
+    with open('report.html','w') as file:
         output =    '''<html>
             <head>
                 <style>

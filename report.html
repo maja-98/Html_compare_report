@@ -6,6 +6,8 @@
                     font-family: "Lucida Console", "Courier New", monospace;
                     background-color: #00cccc;
                     color: #e6ffff;
+                    border-radius:2px;
+    
                     }
                     th,td {
                         border: 2px solid black;
@@ -22,16 +24,29 @@
                     background-color:#00ffff;
                     }
                     div{
-                      height: 100%;
-        
-                   
+
+                      display:flex;
+    
                       justify-content:center;
-             
+                      height:500px;
+                      overflow-x:hidden;
+                      overflow-y:scroll;
+                      width:50%;
+                      
+      
                     }
+
+                    .align-center{
+                      display:flex;
+                      flex-direction:column;
+                      align-items:center;
+                    }
+                    p{
+                    margin:5px;
                 </style>
                 <title> Text Compare </title> 
             </head>
-            <body>
+            <body class='align-center'>
                 <h1>Error Report </h1>
                 <div>
                     <table >
@@ -1241,6 +1256,12 @@
               </tr>
             
                             </table>
+                            
                         </div>
+                        <footer class='align-center'>
+                            <p>This comparing source and target by letterwise!!!</p>
+                            <p>Will update more soon!!!</p>
+                            <small>&#169; MAJA</small>
+                        </footer> 
                     </body>
                 </html>
