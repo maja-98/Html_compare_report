@@ -3,7 +3,11 @@ def error_detector(source,target):
     with open('report.html','w') as file:
         output =    '''<html>
             <head>
+                <meta name="viewport" content="width=device-width, initial-scale=1">
                 <style>
+                    html{
+                    overflow:hidden;
+                    }
                     h1{
                     text-align:center;
                     font-family: "Lucida Console", "Courier New", monospace;
@@ -34,7 +38,7 @@ def error_detector(source,target):
                       height:500px;
                       overflow-x:hidden;
                       overflow-y:scroll;
-                      width:50%;
+                      width:100%;
                       
       
                     }
@@ -56,7 +60,6 @@ def error_detector(source,target):
                       <tr>
                         <th>Source</th>
                         <th>Target</th>
-                        <th>Error</th>
                       </tr>'''
         
 
@@ -65,40 +68,46 @@ def error_detector(source,target):
             source_val=source[i]
             target_val=target[i]
             
-            val=''
-            error=''
+            
+            source_val_err,target_val_err,src_err,trg_err='','','',''
 
-            if len(source_val)>len(target_val):
-                main=source_val
-            else:
-                main= target_val
+
                 
-            length =max(len(source_val),len(target_val))
-            source_val = source_val.ljust(length,' ')
-            target_val = target_val.ljust(length,' ')
+            length =min(len(source_val),len(target_val))
+            source_val_add = '''<span class='error'>%s</span>'''%(source_val[length:])
+            target_val_add = '''<span class='error'>%s</span>'''%(target_val[length:])
+            source_val = source_val[:length]
+            target_val = target_val[:length]
+        
+
+            
             
             for j in range(len(source_val)):
                 
                 if source_val[j]!=target_val[j]:
-                    error+=main[j]
+                    src_err+=source_val[j]
+                    trg_err+=target_val[j]
                     
                 else:
-                    if error:
-                        val+='''<span class='error'>%s</span>'''%(error)
-                        error=''
+                    if (src_err or trg_err):
+                        source_val_err+='''<span class='error'>%s</span>'''%(src_err)
+                        target_val_err+='''<span class='error'>%s</span>'''%(trg_err)
+                        src_err,trg_err='',''
                     
-                    val+=main[j]
-            if error:
-                val+='''<span class='error'>%s</span>'''%(error)
+                    source_val_err+=source_val[j]
+                    target_val_err+=target_val[j]
+            if (src_err or trg_err):
+                source_val_err+='''<span class='error'>%s</span>'''%(src_err)
+                target_val_err+='''<span class='error'>%s</span>'''%(trg_err)
             
-
+            source_val_err+=source_val_add
+            target_val_err+=target_val_add
             output+='''
               <tr>
                 <td>%s</td>
                 <td>%s</td>
-                <td>%s</td>
               </tr>
-            '''%(source_val,target_val,val)
+            '''%(source_val_err,target_val_err)
         
         
 
@@ -116,8 +125,8 @@ def error_detector(source,target):
         #print(output)
         file.write(output)
         print("Done")
-with open('test.csv','r') as ajmal:
-    a=list(csv.DictReader(ajmal))
+with open('test.csv','r') as file1:
+    a=list(csv.DictReader(file1))
     source,target=[],[]
     for i in range(len(a)):
         source.append(a[i]['Source'])
